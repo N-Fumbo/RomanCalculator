@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Linq.Expressions;
+using System.Text;
 
 namespace RomanCalculator.Algorithms
 {
@@ -8,6 +9,8 @@ namespace RomanCalculator.Algorithms
 
         public static List<string> ConvertToPostfix(string expression)
         {
+            if (IsValidExpression(expression) is false) throw new ArgumentException("Неверное математическое выражение.", nameof(expression));
+
             List<string> postfix = new();
             Stack<char> operators = new();
 
@@ -53,6 +56,15 @@ namespace RomanCalculator.Algorithms
                 postfix.Add(operators.Pop().ToString());
 
             return postfix;
+        }
+
+        private static bool IsValidExpression(string expression)
+        {
+            if(string.IsNullOrWhiteSpace(expression)) return false;
+
+
+
+            return false;
         }
 
         private static int GetPriorityOperation(char opertaion)
