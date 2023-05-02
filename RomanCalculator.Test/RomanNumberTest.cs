@@ -31,16 +31,16 @@
         {
             if (string.IsNullOrWhiteSpace(roman))
             {
-                Assert.ThrowsAny<ArgumentNullException>(() => new RomanNumber().ConvertToArabic(roman));
+                Assert.ThrowsAny<ArgumentNullException>(() => RomanNumber.ConvertToArabic(roman));
             }
             if (expected.HasValue)
             {
-                var actual = new RomanNumber().ConvertToArabic(roman);
+                var actual = RomanNumber.ConvertToArabic(roman);
                 Assert.Equal(expected, actual);
             }
             else
             {
-                Assert.ThrowsAny<ArgumentException>(() => new RomanNumber().ConvertToArabic(roman));
+                Assert.ThrowsAny<ArgumentException>(() => RomanNumber.ConvertToArabic(roman));
             }
         }
 
@@ -53,16 +53,23 @@
         [InlineData(400, "CD")]
         [InlineData(900, "CM")]
         [InlineData(1005, "MV")]
+        [InlineData(1954, "MCMLIV")]
+        [InlineData(1999, "MCMXCIX")]
+        [InlineData(2014, "MMXIV")]
+        [InlineData(3999, "MMMCMXCIX")]
+        [InlineData(-1, null)]
+        [InlineData(0, null)]
+        [InlineData(4000, null)]
         public void ToRoman_ConvertsCorrectly(int arabic, string expected)
         {
             if (expected != null)
             {
-                var actual = new RomanNumber().ConvertToRoman(arabic);
+                var actual = RomanNumber.ConvertToRoman(arabic);
                 Assert.Equal(expected, actual);
             }
             else
             {
-                Assert.ThrowsAny<ArgumentOutOfRangeException>(() => new RomanNumber().ConvertToRoman(arabic));
+                Assert.ThrowsAny<ArgumentOutOfRangeException>(() => RomanNumber.ConvertToRoman(arabic));
             }
         }
     }
