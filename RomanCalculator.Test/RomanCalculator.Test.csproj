@@ -22,4 +22,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\RomanCalculator\RomanCalculator.csproj" />
+  </ItemGroup>
+
 </Project>
