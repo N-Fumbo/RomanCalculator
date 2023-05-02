@@ -1,4 +1,6 @@
-﻿namespace RomanCalculator.Test
+﻿using RomanCalculator.Exceptions;
+
+namespace RomanCalculator.Test
 {
     public class RomanNumberTest
     {
@@ -29,7 +31,7 @@
         [InlineData("LXL", null)]
         public void ToArabic_ConvertsCorrectly(string roman, int? expected)
         {
-            if (string.IsNullOrWhiteSpace(roman))
+            if (roman is null)
             {
                 Assert.ThrowsAny<ArgumentNullException>(() => RomanNumber.ConvertToArabic(roman));
             }
@@ -40,7 +42,7 @@
             }
             else
             {
-                Assert.ThrowsAny<ArgumentException>(() => RomanNumber.ConvertToArabic(roman));
+                Assert.ThrowsAny<InvalidRomanNumberException>(() => RomanNumber.ConvertToArabic(roman));
             }
         }
 

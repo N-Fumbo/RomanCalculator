@@ -14,7 +14,7 @@ namespace RomanCalculator.Test.Algorithms
         [InlineData("( 1 + 2 ) * ( 3 + 4 ) * ( 5 + 6 )", "1 2 + 3 4 + * 5 6 + *")]
         public void ToRoman_ConvertsCorrectly(string expresion, string expected)
         {
-            List<string> actual = new ReversePolishNotation().ConvertToPostfix(expresion);
+            List<string> actual = ReversePolishNotation.ConvertToPostfix(expresion);
             string result = string.Join(" ", actual);
             Assert.Equal(expected, result);
         }

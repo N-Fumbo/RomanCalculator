@@ -6,7 +6,7 @@ namespace RomanCalculator.Algorithms
     {
         private static readonly char[] _operators = { '+', '-', '*' };
 
-        public List<string> ConvertToPostfix(string expression)
+        public static List<string> ConvertToPostfix(string expression)
         {
             List<string> postfix = new();
             Stack<char> operators = new();

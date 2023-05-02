@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using RomanCalculator.Exceptions;
+using System.Text.RegularExpressions;
 
 namespace RomanCalculator
 {
@@ -26,9 +27,9 @@ namespace RomanCalculator
 
         public static int ConvertToArabic(string roman)
         {
-            if(string.IsNullOrWhiteSpace(roman)) throw new ArgumentNullException(nameof(roman));
+            if(roman is null) throw new ArgumentNullException(nameof(roman));
 
-            if(CheckRomanNumberRegex().IsMatch(roman) is false) throw new ArgumentException("Недопустимое значение римского числа.", nameof(roman));
+            if(CheckRomanNumberRegex().IsMatch(roman) is false) throw new InvalidRomanNumberException($"Недопустимое значение римского числа. {nameof(roman)}.");
 
             int result = 0;
 
@@ -47,10 +48,7 @@ namespace RomanCalculator
         {
             if (arabic < 1 || arabic > 3999) throw new ArgumentOutOfRangeException(nameof(arabic), "Число должно быть в диапазоне от 1 до 3999.");
 
-            string roman = _thousands[arabic / 1000] +
-                           _hundreds[(arabic % 1000) / 100] +
-                           _tens[(arabic % 100) / 10] +
-                           _units[arabic % 10];
+            string roman = _thousands[arabic / 1000] + _hundreds[(arabic % 1000) / 100] + _tens[(arabic % 100) / 10] + _units[arabic % 10];
 
             return roman;
         }
