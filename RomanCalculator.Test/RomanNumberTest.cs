@@ -43,5 +43,27 @@
                 Assert.ThrowsAny<ArgumentException>(() => new RomanNumber().ConvertToArabic(roman));
             }
         }
+
+        [Theory]
+        [InlineData(1, "I")]
+        [InlineData(4, "IV")]
+        [InlineData(9, "IX")]
+        [InlineData(40, "XL")]
+        [InlineData(90, "XC")]
+        [InlineData(400, "CD")]
+        [InlineData(900, "CM")]
+        [InlineData(1005, "MV")]
+        public void ToRoman_ConvertsCorrectly(int arabic, string expected)
+        {
+            if (expected != null)
+            {
+                var actual = new RomanNumber().ConvertToRoman(arabic);
+                Assert.Equal(expected, actual);
+            }
+            else
+            {
+                Assert.ThrowsAny<ArgumentOutOfRangeException>(() => new RomanNumber().ConvertToRoman(arabic));
+            }
+        }
     }
 }
