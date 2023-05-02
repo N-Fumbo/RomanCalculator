@@ -4,7 +4,6 @@ namespace RomanCalculator.Algorithms
 {
     public class ReversePolishNotation
     {
-        
         private static readonly char[] _operators = { '+', '-', '*' };
 
         public List<string> ConvertToPostfix(string expression)
