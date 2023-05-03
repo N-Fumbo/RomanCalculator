@@ -5,7 +5,7 @@ namespace RomanCalculator
 {
     public partial class RomanNumber
     {
-        private static readonly Dictionary<char, int> _romanInArabicMap = new()
+        public static readonly Dictionary<char, int> RomanInArabicMap = new()
         {
             ['I'] = 1,
             ['V'] = 5,
@@ -15,6 +15,8 @@ namespace RomanCalculator
             ['D'] = 500,
             ['M'] = 1000
         };
+
+        private static Regex _checkRomanNumberRegex = new("^M{0,3}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})$");
 
         private static readonly string[] _thousands = { "", "M", "MM", "MMM" };
 
@@ -29,15 +31,15 @@ namespace RomanCalculator
         {
             if(roman is null) throw new ArgumentNullException(nameof(roman));
 
-            if(CheckRomanNumberRegex().IsMatch(roman) is false) throw new InvalidRomanNumberException($"Недопустимое значение римского числа. {nameof(roman)}.");
+            if(_checkRomanNumberRegex.IsMatch(roman) is false) throw new InvalidRomanNumberException($"Недопустимое значение римского числа. {nameof(roman)}.");
 
             int result = 0;
 
             for (int i = 0; i < roman.Length; i++)
             {
-                int current = _romanInArabicMap[roman[i]];
+                int current = RomanInArabicMap[roman[i]];
 
-                result += i + 1 < roman.Length && _romanInArabicMap[roman[i + 1]] > current
+                result += i + 1 < roman.Length && RomanInArabicMap[roman[i + 1]] > current
                     ? -current : current;
             }
 
@@ -52,8 +54,5 @@ namespace RomanCalculator
 
             return roman;
         }
-
-        [GeneratedRegex("^M{0,3}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})$")]
-        private static partial Regex CheckRomanNumberRegex();
     }
 }
