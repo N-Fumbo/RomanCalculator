@@ -1,10 +1,5 @@
 ﻿using RomanCalculator.Exceptions;
 using RomanCalculator.Parser;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RomanCalculator.Test.Parse
 {
@@ -42,7 +37,7 @@ namespace RomanCalculator.Test.Parse
         [InlineData("CDM", null)]
         [InlineData("MCMC", null)]
         [InlineData("LXL", null)]
-        public void ToArabic_ConvertsCorrectly(string expectedRoman, string expectedArabic)
+        public void ConvertExpressionRomanToArabic_Correctly(string expectedRoman, string expectedArabic)
         {
             if (expectedArabic != null)
             {

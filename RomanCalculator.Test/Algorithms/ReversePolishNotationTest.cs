@@ -24,7 +24,7 @@ namespace RomanCalculator.Test.Algorithms
         [InlineData("() + 1 + 20", null)]
         [InlineData("2) + 10", null)]
         [InlineData("10.2 + 10", null)]
-        public void ToRoman_ConvertsCorrectly(string expresion, string expected)
+        public void ConvertToPostfix_Correctly(string expresion, string expected)
         {
             if (expected != null)
             {
