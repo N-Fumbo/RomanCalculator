@@ -1,5 +1,4 @@
 ﻿using RomanCalculator.Algorithms;
-using RomanCalculator.Exceptions;
 
 namespace RomanCalculator.Test.Algorithms
 {
