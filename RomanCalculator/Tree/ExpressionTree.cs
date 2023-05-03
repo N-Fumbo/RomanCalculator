@@ -4,7 +4,18 @@ namespace RomanCalculator.Tree
 {
     public class ExpressionTree
     {
-        public Expression BuildExpressionTree(Node root)
+        public Node Root { get; }
+
+        public ExpressionTree(Node root)
+        {
+            if(root is null) throw new ArgumentNullException(nameof(root));
+            Root = root;
+        }
+
+        public Expression BuildExpressionTree() => BuildExpressionTree(Root);
+
+
+        private Expression BuildExpressionTree(Node root)
         {
             if (root is null) return null;
 

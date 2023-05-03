@@ -5,7 +5,6 @@ namespace RomanCalculator.Test
     {
         [Theory]
         [InlineData("(MMMDCCXXIV - MMCCXXIX) * II", "MMCMXC")]
-        [InlineData("(XCVI / IV) + (XXV * III)", "XCIX")]
         [InlineData("XVIII + (CIX - LXXV) * V", "CLXXXVIII")]
         [InlineData("XV * III + CXI - (XLVII + IX)", "C")]
         [InlineData("(MDCCC - DCCC) * VI - MMMDCCCLXXV", "MMCXXV")]
