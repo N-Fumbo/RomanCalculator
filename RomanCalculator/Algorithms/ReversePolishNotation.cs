@@ -1,25 +1,26 @@
-﻿using System.Linq.Expressions;
+﻿using RomanCalculator.Parser.ExpressionValidator;
+using RomanCalculator.Parser.ExpressionValidator.Base;
 using System.Text;
 
 namespace RomanCalculator.Algorithms
 {
-    public class ReversePolishNotation
+    public partial class ReversePolishNotation
     {
-        private static readonly char[] _operators = { '+', '-', '*' };
-
         public static List<string> ConvertToPostfix(string expression)
         {
-            if (IsValidExpression(expression) is false) throw new ArgumentException("Неверное математическое выражение.", nameof(expression));
+            if (new MathExpressionValidator<IMathExpressionValidatorStrategy>().Validate(expression) is false) throw new ArgumentException("Неверное математическое выражение.", nameof(expression));
 
             List<string> postfix = new();
             Stack<char> operators = new();
+            StringBuilder number = new();
 
             for (int i = 0; i < expression.Length; i++)
             {
                 char c = expression[i];
+
                 if (char.IsDigit(c))
                 {
-                    StringBuilder number = new();
+                    number.Clear();
                     while (char.IsDigit(c))
                     {
                         number.Append(c);
@@ -32,7 +33,7 @@ namespace RomanCalculator.Algorithms
                     i--;
                     postfix.Add(number.ToString());
                 }
-                else if (_operators.Contains(c))
+                else if (MathConstants.Operators.Contains(c.ToString()))
                 {
                     while (operators.Count > 0 && GetPriorityOperation(c) <= GetPriorityOperation(operators.Peek()))
                         postfix.Add(operators.Pop().ToString());
@@ -56,15 +57,6 @@ namespace RomanCalculator.Algorithms
                 postfix.Add(operators.Pop().ToString());
 
             return postfix;
-        }
-
-        private static bool IsValidExpression(string expression)
-        {
-            if(string.IsNullOrWhiteSpace(expression)) return false;
-
-
-
-            return false;
         }
 
         private static int GetPriorityOperation(char opertaion)
