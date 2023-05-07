@@ -16,8 +16,6 @@ namespace RomanCalculator
             ['M'] = 1000
         };
 
-        private static Regex _checkRomanNumberRegex = new("^M{0,3}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})$");
-
         private static readonly string[] _thousands = { "", "M", "MM", "MMM" };
 
         private static readonly string[] _hundreds = { "", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM" };
@@ -31,7 +29,7 @@ namespace RomanCalculator
         {
             if(roman is null) throw new ArgumentNullException(nameof(roman));
 
-            if(_checkRomanNumberRegex.IsMatch(roman) is false) throw new InvalidRomanNumberException($"Недопустимое значение римского числа. {nameof(roman)}.");
+            if(IsValidRomanNumberRegex().IsMatch(roman) is false) throw new InvalidRomanNumberException($"Недопустимое значение римского числа. {nameof(roman)}.");
 
             int result = 0;
 
@@ -50,9 +48,12 @@ namespace RomanCalculator
         {
             if (arabic < 1 || arabic > 3999) throw new ArgumentOutOfRangeException(nameof(arabic), "Число должно быть в диапазоне от 1 до 3999.");
 
-            string roman = _thousands[arabic / 1000] + _hundreds[(arabic % 1000) / 100] + _tens[(arabic % 100) / 10] + _units[arabic % 10];
+            string roman = _thousands[arabic / 1000] + _hundreds[arabic % 1000 / 100] + _tens[arabic % 100 / 10] + _units[arabic % 10];
 
             return roman;
         }
+
+        [GeneratedRegex("^M{0,3}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})$")]
+        private static partial Regex IsValidRomanNumberRegex();
     }
 }

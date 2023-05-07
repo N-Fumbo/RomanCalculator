@@ -1,6 +1,5 @@
 ﻿using RomanCalculator.Parser.ExpressionValidator;
 using RomanCalculator.Parser.ExpressionValidator.Base;
-using System.Text;
 
 namespace RomanCalculator.Algorithms
 {
@@ -8,30 +7,21 @@ namespace RomanCalculator.Algorithms
     {
         public static List<string> ConvertToPostfix(string expression)
         {
-            if (new MathExpressionValidator<IMathExpressionValidatorStrategy>().Validate(expression) is false) throw new ArgumentException("Неверное математическое выражение.", nameof(expression));
+            if (new MathExpressionValidator<IMathExpressionValidatorStrategy>().Validate(expression) is false) 
+                throw new ArgumentException("Неверное математическое выражение.", nameof(expression));
 
             List<string> postfix = new();
             Stack<char> operators = new();
-            StringBuilder number = new();
 
             for (int i = 0; i < expression.Length; i++)
             {
                 char c = expression[i];
 
-                if (char.IsDigit(c))
+                var numberData = Helper.GetNumberFromString(expression, i);
+                if (numberData != null)
                 {
-                    number.Clear();
-                    while (char.IsDigit(c))
-                    {
-                        number.Append(c);
-                        i++;
-
-                        if (i < expression.Length) c = expression[i];
-                        else break;
-                    }
-
-                    i--;
-                    postfix.Add(number.ToString());
+                    i = numberData.Value.Index;
+                    postfix.Add(numberData.Value.Number.ToString());
                 }
                 else if (MathConstants.Operators.Contains(c.ToString()))
                 {

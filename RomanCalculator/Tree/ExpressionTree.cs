@@ -30,7 +30,7 @@ namespace RomanCalculator.Tree
                 "+" => Expression.Add(left, right),
                 "-" => Expression.Subtract(left, right),
                 "*" => Expression.Multiply(left, right),
-                _ => throw new InvalidOperationException($"Unknown operator: {root.Value}")
+                _ => throw new InvalidOperationException($"Неизвестный оператор: {root.Value}")
             };
         }
     }

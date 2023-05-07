@@ -1,14 +1,12 @@
 ﻿using RomanCalculator.Parser.ExpressionValidator.Base;
 using RomanCalculator.Parser.ExpressionValidator.Strategies;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 
 namespace RomanCalculator.Parser.ExpressionValidator
 {
     public class MathExpressionValidator<T> where T : IMathExpressionValidatorStrategy
     {
-        private static Regex _minimumComponentExpressionRegex = new("^(?=.*\\d.*\\d)(?=.*[+\\-*]).+$");
+        private static readonly Regex _minimumComponentExpressionRegex = new("^(?=.*\\d.*\\d)(?=.*[+\\-*]).+$");
 
         private readonly Dictionary<Type, T> _validators;
 
@@ -27,34 +25,23 @@ namespace RomanCalculator.Parser.ExpressionValidator
         public bool Validate(string expression)
         {
             if (string.IsNullOrWhiteSpace(expression)) return false;
-            
-            if(_minimumComponentExpressionRegex.IsMatch(expression) is false) return false;
+
+            if (_minimumComponentExpressionRegex.IsMatch(expression) is false) return false;
 
             var stack = new Stack<char>();
-
             string previousValue = null;
-
-            var number = new StringBuilder();
 
             for (int i = 0; i < expression.Length; i++)
             {
                 char c = expression[i];
 
-                if (char.IsDigit(c))
+                var numberData = Helper.GetNumberFromString(expression, i);
+                if (numberData != null)
                 {
                     if (!Validate<NumberValidatorStrategy>(previousValue)) return false;
-                    number.Clear();
 
-                    while (char.IsDigit(c))
-                    {
-                        number.Append(c);
-                        i++;
-                        if (i < expression.Length) c = expression[i];
-                        else break;
-                    }
-
-                    i--;
-                    previousValue = number.ToString();
+                    i = numberData.Value.Index;
+                    previousValue = numberData.Value.Number.ToString();
                 }
                 else if (MathConstants.Operators.Contains(c.ToString()))
                 {
@@ -88,9 +75,7 @@ namespace RomanCalculator.Parser.ExpressionValidator
             return stack.Count == 0;
         }
 
-        private bool Validate<TStrategy>(string previousValue) where TStrategy : IMathExpressionValidatorStrategy
-        {
-            return _validators[typeof(TStrategy)].Validate(previousValue);
-        }
+        private bool Validate<TStrategy>(string previousValue) where TStrategy : IMathExpressionValidatorStrategy =>
+            _validators[typeof(TStrategy)].Validate(previousValue);
     }
 }

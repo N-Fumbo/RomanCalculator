@@ -17,26 +17,26 @@ namespace RomanCalculator.Parser
             for (int i = 0; i < expressionFormatRoman.Length; i++)
             {
                 char c = expressionFormatRoman[i];
-                if (RomanNumber.RomanInArabicMap.ContainsKey(c))
-                {
-                    number.Clear();
-                    while (RomanNumber.RomanInArabicMap.ContainsKey(c))
-                    {
-                        number.Append(c);
-                        i++;
 
-                        if (i < expressionFormatRoman.Length) c = expressionFormatRoman[i];
-                        else break;
-                    }
-
-                    i--;
-
-                    result.Append(RomanNumber.ConvertToArabic(number.ToString()));
-                }
-                else
+                if (RomanNumber.RomanInArabicMap.ContainsKey(c) is false)
                 {
                     result.Append(c);
+                    continue;
                 }
+                
+                number.Clear();
+                while (RomanNumber.RomanInArabicMap.ContainsKey(c))
+                {
+                    number.Append(c);
+                    i++;
+
+                    if (i < expressionFormatRoman.Length) c = expressionFormatRoman[i];
+                    else break;
+                }
+
+                i--;
+
+                result.Append(RomanNumber.ConvertToArabic(number.ToString()));
             }
 
             return result.ToString();
